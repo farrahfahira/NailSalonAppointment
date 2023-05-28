@@ -1,0 +1,11 @@
+context Service::Service(serviceId: String, price: Real)
+    post : self.serviceId = serviceId and self.price = price
+
+context Service::getPrice() : Real
+    pre  : self.price <> null
+    post : result = self.price
+
+context Service::getServiceId() : String
+    pre  : self.serviceId <> null
+    post : result = self.serviceId
+    

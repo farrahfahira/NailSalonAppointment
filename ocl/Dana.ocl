@@ -1,0 +1,36 @@
+context Dana::Dana()
+    post : self.balance = 0
+
+
+context Dana::Dana(ammount: Real)
+    post : self.balance = ammount
+
+
+context Dana::pay(ammount: Real) : Boolean
+    init : false
+    inv  : self.balance >= 0
+    pre  : self.getBalance() >= ammount
+    post : self.withdraw(ammount)
+                and self@pre.getBalance() – self.getBalance() = ammount
+                and result = true
+
+
+context Dana::topUp(ammount: Real)
+    inv  : self.balance >= 0
+    post : self.balance + ammount
+                and self.balance = self@pre.getBalance() + ammount
+
+
+context Dana::withdraw(ammount: Real)
+    inv  : self.balance >= 0
+    post : self.balance - ammount
+                and self.balance = self@pre.getBalance() - ammount
+
+
+context Dana::getBalance() : Real
+    post : result = self.balance
+    
+
+context Dana::getOptionName() : String
+    post : result = "Dana"
+

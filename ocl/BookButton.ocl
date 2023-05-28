@@ -1,0 +1,15 @@
+context BookButton::BookButton()
+    psot : self.nailAppointment = null
+
+
+context BookButton::connectTo (nailAppointment : Book)
+    post : self.nailAppointment = nailAppointment
+
+
+context BookButton::pressed()
+    pre  : self.nailAppointment <> null
+    post : if nailAppointment.book() = true
+                then print "Book done succesfully!"
+            else
+                print "Book failed!"
+

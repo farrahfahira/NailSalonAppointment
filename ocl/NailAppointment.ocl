@@ -1,0 +1,37 @@
+context BookButton::BookButton()
+    post : self.options = null
+    
+
+context NailAppointment::connectTo (options : PaymentSystem)
+    post : self.options = options
+
+
+context NailAppointment::book() : Boolean
+    init : false
+    inv  : self.services->size() >= 0
+    pre  : self.isEmpty() <> true 
+                and self.options <> null
+    post : if self.options.pay(calculatePrice()) = true
+                then result = true
+
+    
+context NailAppointment::calculatePrice() : Real
+    init : 0
+    pre  : self.services->size() > 0
+    post : self.services->iterate(p: Service, sum: Real=0 
+                | sum + p.getPrice()
+                and result = sum)
+
+
+context NailAppointment::addService(product: Service)
+    inv  : self.services->size() >= 0
+    pre  : product <> null
+    post : services->size() – services@pre->size() = 1
+                and services->exists(p: Service 
+                | p.getServiceId() = product.getServiceId())
+
+    
+context NailAppointment::isEmpty() : Boolean
+    init : false
+    post : result = self.services->size() == 0
+
